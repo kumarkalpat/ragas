@@ -4,8 +4,7 @@ import RagaListItem from './RagaListItem';
 
 interface RagaListProps {
   ragas: Raga[];
-  onSelectRaga: (raga: Raga) => void;
-  onTogglePlay: (raga: Raga) => void;
+  onActivateRaga: (raga: Raga) => void;
   onSeek: (time: number) => void;
   activeRagaId: string | null;
   playingRagaId: string | null;
@@ -14,7 +13,7 @@ interface RagaListProps {
   duration: number;
 }
 
-const RagaList: React.FC<RagaListProps> = ({ ragas, onSelectRaga, onTogglePlay, onSeek, activeRagaId, playingRagaId, audioErrorId, currentTime, duration }) => {
+const RagaList: React.FC<RagaListProps> = ({ ragas, onActivateRaga, onSeek, activeRagaId, playingRagaId, audioErrorId, currentTime, duration }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [styleFilter, setStyleFilter] = useState<RagaStyle | 'All'>('All');
 
@@ -61,8 +60,7 @@ const RagaList: React.FC<RagaListProps> = ({ ragas, onSelectRaga, onTogglePlay, 
             <RagaListItem
               key={raga.id}
               raga={raga}
-              onSelect={() => onSelectRaga(raga)}
-              onTogglePlay={() => onTogglePlay(raga)}
+              onActivate={() => onActivateRaga(raga)}
               onSeek={onSeek}
               isActive={raga.id === activeRagaId}
               isPlaying={raga.id === playingRagaId}

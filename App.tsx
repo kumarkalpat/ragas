@@ -13,49 +13,36 @@ const App: React.FC = () => {
   const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const handleSelectRaga = (raga: Raga) => {
-    setSelectedRaga(raga);
-  };
-  
-  const handleTogglePlay = async (raga: Raga) => {
-    setAudioErrorId(null);
-    if (!raga.audioUrl) return;
-
+  const handleRagaActivation = async (raga: Raga) => {
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !raga.audioUrl) return;
 
-    const isCurrentlyPlaying = playingRagaId === raga.id;
+    const isPlayingThisRaga = playingRagaId === raga.id;
 
-    if (isCurrentlyPlaying) {
-      // If it's the same raga, just pause it.
+    // Set the selected raga for the detail view.
+    // Do this early for a responsive UI feel.
+    if (selectedRaga?.id !== raga.id) {
+      setSelectedRaga(raga);
+    }
+    setAudioErrorId(null);
+
+    if (isPlayingThisRaga) {
+      // If the clicked raga is already playing, pause it.
       audio.pause();
       setPlayingRagaId(null);
     } else {
-      // It's a new raga, or nothing is playing.
-      // Ensure its details are selected.
-      if (selectedRaga?.id !== raga.id) {
-        setSelectedRaga(raga);
-      }
-
-      // If the audio source is not the correct one, update it and load.
-      if (audio.src !== raga.audioUrl) {
-        audio.src = raga.audioUrl;
-        audio.load(); // Explicitly load the new source.
-      }
-      
+      // Otherwise, play the new raga.
+      audio.src = raga.audioUrl;
       try {
         await audio.play();
-        // Playback started successfully. Update the state.
         setPlayingRagaId(raga.id);
       } catch (error) {
-        // Playback failed.
         console.error(`Audio play failed for raga ${raga.id}:`, error);
         setAudioErrorId(raga.id);
         setPlayingRagaId(null);
       }
     }
   };
-
 
   const handleSeek = (time: number) => {
     if (audioRef.current) {
@@ -93,19 +80,6 @@ const App: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    // This effect ensures that if a raga is playing, its details are displayed.
-    // It primarily handles cases where playback is initiated from a different
-    // part of the app in the future.
-    if(playingRagaId) {
-        const raga = RAGAS.find(r => r.id === playingRagaId);
-        if(raga && raga.id !== selectedRaga?.id) {
-            setSelectedRaga(raga);
-        }
-    }
-  }, [playingRagaId, selectedRaga?.id]); // Dependency array updated for correctness
-
-
   return (
     <div className="h-screen w-screen flex flex-col bg-slate-900 font-sans">
       <Header />
@@ -120,8 +94,7 @@ const App: React.FC = () => {
         <div className="md:col-span-1 lg:col-span-1 h-full overflow-y-auto">
           <RagaList
             ragas={RAGAS}
-            onSelectRaga={handleSelectRaga}
-            onTogglePlay={handleTogglePlay}
+            onActivateRaga={handleRagaActivation}
             onSeek={handleSeek}
             activeRagaId={selectedRaga?.id || null}
             playingRagaId={playingRagaId}

@@ -7,8 +7,7 @@ import ErrorIcon from './icons/ErrorIcon';
 
 interface RagaListItemProps {
   raga: Raga;
-  onSelect: () => void;
-  onTogglePlay: () => void;
+  onActivate: () => void;
   onSeek: (time: number) => void;
   isActive: boolean;
   isPlaying: boolean;
@@ -26,7 +25,7 @@ const formatTime = (seconds: number) => {
   return `${minutes}:${secs.toString().padStart(2, '0')}`;
 };
 
-const RagaListItem: React.FC<RagaListItemProps> = ({ raga, onSelect, onTogglePlay, onSeek, isActive, isPlaying, hasError, currentTime, duration }) => {
+const RagaListItem: React.FC<RagaListItemProps> = ({ raga, onActivate, onSeek, isActive, isPlaying, hasError, currentTime, duration }) => {
   const activeClasses = isActive 
     ? 'bg-orange-500/20 border-orange-400' 
     : 'bg-slate-800 border-slate-700 hover:bg-slate-700/50 hover:border-slate-500';
@@ -35,22 +34,16 @@ const RagaListItem: React.FC<RagaListItemProps> = ({ raga, onSelect, onTogglePla
 
   const handlePlayButtonClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onTogglePlay();
+    onActivate();
   };
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSeek(Number(e.target.value));
   };
 
-  const handleContainerClick = () => {
-    // Select the raga and toggle playback
-    onSelect();
-    onTogglePlay();
-  }
-
   return (
     <li
-      onClick={handleContainerClick}
+      onClick={onActivate}
       className={`p-4 rounded-lg border cursor-pointer transition-all duration-200 flex flex-col gap-4 ${activeClasses}`}
       aria-current={isActive ? 'page' : undefined}
     >

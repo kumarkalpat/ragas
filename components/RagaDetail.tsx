@@ -91,24 +91,22 @@ const RagaDetail: React.FC<RagaDetailProps> = ({ raga, onCompositionPlay }) => {
         <DetailItem label="Style" value={raga.style} />
         <DetailItem label={raga.style === 'Hindustani' ? 'Thaat' : 'Melakarta'} value={raga.thaat || raga.melakarta} />
         <DetailItem label="Time" value={raga.time} />
+        <DetailItem label="Period" value={raga.period} />
+        <DetailItem label="Vadi (Dominant)" value={raga.vadi} />
+        <DetailItem label="Samvadi (Sub-dominant)" value={raga.samvadi} />
+        <DetailItem label="Aroha (Ascent)" value={raga.aroha} />
+        <DetailItem label="Avaroha (Descent)" value={raga.avaroha} />
+        {raga.pakad && <DetailItem label="Pakad (Phrase)" value={raga.pakad} />}
+        
         {raga.originator && (
-          <div>
+          <div className="md:col-span-2 lg:col-span-3">
             <h3 className="text-sm font-semibold text-orange-400 uppercase tracking-wider">Originator / Promoter</h3>
             <p className="text-slate-300 text-lg">{raga.originator.name}</p>
             <p className="text-slate-400 text-sm mt-1 leading-relaxed">{raga.originator.note}</p>
           </div>
         )}
-        <DetailItem label="Period" value={raga.period} />
-        <DetailItem label="Vadi (Dominant)" value={raga.vadi} />
-        <DetailItem label="Samvadi (Sub-dominant)" value={raga.samvadi} />
       </div>
       
-      <div className="space-y-4 mb-8">
-        <DetailItem label="Aroha (Ascent)" value={raga.aroha} />
-        <DetailItem label="Avaroha (Descent)" value={raga.avaroha} />
-        {raga.pakad && <DetailItem label="Pakad (Phrase)" value={raga.pakad} />}
-      </div>
-
       {raga.compositions && raga.compositions.length > 0 && (
         <div className="mb-8">
           <h3 className="text-2xl font-semibold text-orange-400 mb-4">Famous Compositions</h3>
