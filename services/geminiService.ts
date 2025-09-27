@@ -1,33 +1,54 @@
 import { GoogleGenAI } from "@google/genai";
 import { Raga } from '../types';
 
+interface AppConfig {
+  apiKey: string;
+  version: string;
+}
+
+// A promise to hold the fetched config, ensuring it's only fetched once.
+let configPromise: Promise<AppConfig> | null = null;
+
+export const getAppConfig = (): Promise<AppConfig> => {
+  if (!configPromise) {
+    configPromise = (async () => {
+      try {
+        const response = await fetch('/api/config');
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to fetch API configuration from server.');
+        }
+        const config = await response.json();
+        if (!config.apiKey || !config.version) {
+          throw new Error("Incomplete configuration received from server.");
+        }
+        return config;
+      } catch (error) {
+        console.error("Error fetching app config:", error);
+        // Rethrow to allow the caller to handle it.
+        throw error;
+      }
+    })();
+  }
+  return configPromise;
+};
+
+
 // This will hold the initialized GoogleGenAI client.
 let ai: GoogleGenAI | null = null;
 
-// This function fetches the API key from our serverless function
-// and initializes the Gemini client. It's a singleton.
+// This function now uses getAppConfig to get the key.
 const getAiClient = async (): Promise<GoogleGenAI> => {
   if (ai) {
     return ai;
   }
-
+  
   try {
-    const configResponse = await fetch('/api/config');
-    if (!configResponse.ok) {
-        const errorData = await configResponse.json();
-        throw new Error(errorData.error || 'Failed to fetch API configuration from server.');
-    }
-    const { apiKey } = await configResponse.json();
-
-    if (!apiKey) {
-      throw new Error("API key was not returned from the server.");
-    }
-    
+    const { apiKey } = await getAppConfig();
     ai = new GoogleGenAI({ apiKey });
     return ai;
   } catch (error) {
       console.error("Error initializing Gemini client:", error);
-      // We'll throw the error up so the UI can display a message.
       // Re-throwing is important so the caller knows initialization failed.
       throw error;
   }

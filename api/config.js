@@ -4,8 +4,12 @@ export const config = {
   runtime: 'edge',
 };
 
+// Using a default export for the handler function is a common and robust pattern
+// for Vercel Serverless Functions. This avoids potential ambiguity when a file
+// has multiple exports (like this one, which also exports `config`).
 export default function handler(request) {
   const apiKey = process.env.API_KEY;
+  const version = process.env.VERCEL_GIT_COMMIT_SHA?.substring(0, 7) || 'local';
 
   if (!apiKey) {
     return new Response(
@@ -18,7 +22,7 @@ export default function handler(request) {
   }
 
   return new Response(
-    JSON.stringify({ apiKey }), 
+    JSON.stringify({ apiKey, version }), 
     {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

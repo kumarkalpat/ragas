@@ -11,9 +11,10 @@ interface RagaListProps {
   audioErrorId: string | null;
   currentTime: number;
   duration: number;
+  version: string | null;
 }
 
-const RagaList: React.FC<RagaListProps> = ({ ragas, onActivateRaga, onSeek, activeRagaId, playingRagaId, audioErrorId, currentTime, duration }) => {
+const RagaList: React.FC<RagaListProps> = ({ ragas, onActivateRaga, onSeek, activeRagaId, playingRagaId, audioErrorId, currentTime, duration, version }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [styleFilter, setStyleFilter] = useState<RagaStyle | 'All'>('All');
 
@@ -73,6 +74,11 @@ const RagaList: React.FC<RagaListProps> = ({ ragas, onActivateRaga, onSeek, acti
           <li className="text-center text-slate-400 mt-8">No ragas found.</li>
         )}
       </ul>
+      {version && (
+        <footer className="p-2 text-center text-xs text-slate-500 border-t border-slate-700">
+          Version: {version}
+        </footer>
+      )}
     </aside>
   );
 };

@@ -4,6 +4,7 @@ import RagaList from './components/RagaList';
 import RagaDetail from './components/RagaDetail';
 import { RAGAS } from './constants';
 import { Raga } from './types';
+import { getAppConfig } from './services/geminiService';
 
 const App: React.FC = () => {
   const [selectedRaga, setSelectedRaga] = useState<Raga | null>(null);
@@ -11,16 +12,26 @@ const App: React.FC = () => {
   const [audioErrorId, setAudioErrorId] = useState<string | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [appVersion, setAppVersion] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const handleRagaActivation = async (raga: Raga) => {
+  useEffect(() => {
+    // Fetch the application config on startup to get the version.
+    getAppConfig()
+      .then(config => setAppVersion(config.version))
+      .catch(err => {
+        console.error("Failed to load app config:", err);
+        setAppVersion('error');
+      });
+  }, []); // Empty dependency array ensures this runs only once on mount.
+
+  const handleRagaActivation = (raga: Raga) => {
     const audio = audioRef.current;
     if (!audio || !raga.audioUrl) return;
 
     const isPlayingThisRaga = playingRagaId === raga.id;
 
-    // Set the selected raga for the detail view.
-    // Do this early for a responsive UI feel.
+    // Set the selected raga for the detail view immediately.
     if (selectedRaga?.id !== raga.id) {
       setSelectedRaga(raga);
     }
@@ -31,15 +42,27 @@ const App: React.FC = () => {
       audio.pause();
       setPlayingRagaId(null);
     } else {
-      // Otherwise, play the new raga.
-      audio.src = raga.audioUrl;
-      try {
-        await audio.play();
-        setPlayingRagaId(raga.id);
-      } catch (error) {
-        console.error(`Audio play failed for raga ${raga.id}:`, error);
-        setAudioErrorId(raga.id);
-        setPlayingRagaId(null);
+      // If the source is different, update it and load it.
+      // This is crucial for switching between different tracks.
+      if (audio.src !== raga.audioUrl) {
+          audio.src = raga.audioUrl;
+          audio.load();
+      }
+      
+      // Use the promise returned by play() to handle success and failure.
+      // This is the most robust way to deal with browser autoplay policies.
+      const playPromise = audio.play();
+
+      if (playPromise !== undefined) {
+        playPromise.then(_ => {
+          // Playback started successfully.
+          setPlayingRagaId(raga.id);
+        }).catch(error => {
+          // Autoplay was prevented or another error occurred.
+          console.error(`Audio play failed for raga ${raga.id}:`, error);
+          setAudioErrorId(raga.id);
+          setPlayingRagaId(null);
+        });
       }
     }
   };
@@ -55,7 +78,7 @@ const App: React.FC = () => {
     if (playingRagaId) {
       console.error(`Failed to load audio for raga: ${playingRagaId}`);
       setAudioErrorId(playingRagaId);
-      setPlayingRagaId(null); // Stop trying to play
+      setPlayingRagaId(null);
       setCurrentTime(0);
       setDuration(0);
     }
@@ -101,6 +124,7 @@ const App: React.FC = () => {
             audioErrorId={audioErrorId}
             currentTime={currentTime}
             duration={duration}
+            version={appVersion}
           />
         </div>
         <div className="md:col-span-2 lg:col-span-3 h-full overflow-y-auto">
