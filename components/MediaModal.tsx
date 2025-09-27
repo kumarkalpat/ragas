@@ -18,7 +18,9 @@ const getYoutubeEmbedUrl = (url: string): string | null => {
     }
 
     if (videoId) {
-      return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      // Removed ?autoplay=1 as it's unreliable due to browser policies
+      // and can prevent the video player from loading correctly.
+      return `https://www.youtube.com/embed/${videoId}`;
     }
   } catch (error) {
     console.error("Invalid URL for media modal:", error);

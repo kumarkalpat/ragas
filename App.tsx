@@ -17,46 +17,45 @@ const App: React.FC = () => {
     setSelectedRaga(raga);
   };
   
-  const handleTogglePlay = (raga: Raga) => {
+  const handleTogglePlay = async (raga: Raga) => {
     setAudioErrorId(null);
     if (!raga.audioUrl) return;
 
     const audio = audioRef.current;
     if (!audio) return;
 
-    // If the clicked raga is already playing, pause it.
-    if (playingRagaId === raga.id) {
+    const isCurrentlyPlaying = playingRagaId === raga.id;
+
+    if (isCurrentlyPlaying) {
+      // If it's the same raga, just pause it.
       audio.pause();
       setPlayingRagaId(null);
     } else {
-      // If a different raga is playing, or nothing is, play this one.
+      // It's a new raga, or nothing is playing.
       // Ensure its details are selected.
       if (selectedRaga?.id !== raga.id) {
         setSelectedRaga(raga);
       }
 
-      // If the audio source is not the correct one, update it.
+      // If the audio source is not the correct one, update it and load.
       if (audio.src !== raga.audioUrl) {
         audio.src = raga.audioUrl;
+        audio.load(); // Explicitly load the new source.
       }
       
-      // Attempt to play and handle the promise returned by audio.play()
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            // Playback started successfully. Update the state.
-            setPlayingRagaId(raga.id);
-          })
-          .catch(error => {
-            // Playback failed.
-            console.error(`Audio play failed for raga ${raga.id}:`, error);
-            setAudioErrorId(raga.id);
-            setPlayingRagaId(null);
-          });
+      try {
+        await audio.play();
+        // Playback started successfully. Update the state.
+        setPlayingRagaId(raga.id);
+      } catch (error) {
+        // Playback failed.
+        console.error(`Audio play failed for raga ${raga.id}:`, error);
+        setAudioErrorId(raga.id);
+        setPlayingRagaId(null);
       }
     }
   };
+
 
   const handleSeek = (time: number) => {
     if (audioRef.current) {
