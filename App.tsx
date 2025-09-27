@@ -18,30 +18,42 @@ const App: React.FC = () => {
   };
   
   const handleTogglePlay = (raga: Raga) => {
-    setAudioErrorId(null); // Clear previous errors on a new play attempt
+    setAudioErrorId(null);
     if (!raga.audioUrl) return;
 
     const audio = audioRef.current;
     if (!audio) return;
 
+    // If the clicked raga is already playing, pause it.
     if (playingRagaId === raga.id) {
       audio.pause();
       setPlayingRagaId(null);
     } else {
-      if (!selectedRaga || selectedRaga.id !== raga.id) {
+      // If a different raga is playing, or nothing is, play this one.
+      // Ensure its details are selected.
+      if (selectedRaga?.id !== raga.id) {
         setSelectedRaga(raga);
       }
-      audio.src = raga.audioUrl;
-      setPlayingRagaId(raga.id); // Optimistically set playing state
+
+      // If the audio source is not the correct one, update it.
+      if (audio.src !== raga.audioUrl) {
+        audio.src = raga.audioUrl;
+      }
       
+      // Attempt to play and handle the promise returned by audio.play()
       const playPromise = audio.play();
       if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          console.error(`Audio play failed for raga ${raga.id}:`, error);
-          // Revert state if playback fails
-          setAudioErrorId(raga.id);
-          setPlayingRagaId(null);
-        });
+        playPromise
+          .then(() => {
+            // Playback started successfully. Update the state.
+            setPlayingRagaId(raga.id);
+          })
+          .catch(error => {
+            // Playback failed.
+            console.error(`Audio play failed for raga ${raga.id}:`, error);
+            setAudioErrorId(raga.id);
+            setPlayingRagaId(null);
+          });
       }
     }
   };
@@ -92,7 +104,7 @@ const App: React.FC = () => {
             setSelectedRaga(raga);
         }
     }
-  }, [playingRagaId]); // Only trigger when the playing raga changes.
+  }, [playingRagaId, selectedRaga?.id]); // Dependency array updated for correctness
 
 
   return (

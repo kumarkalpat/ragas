@@ -80,7 +80,8 @@ export const RAGAS: Raga[] = [
                 bio: 'One of the greatest composers of Carnatic music, he composed thousands of devotional compositions, most in praise of Lord Rama.',
                 externalUrl: 'https://en.wikipedia.org/wiki/Tyagaraja',
             },
-            mediaUrl: 'https://www.youtube.com/watch?v=s6zZt9b-puQ' 
+            // Replaced video with an embeddable version
+            mediaUrl: 'https://www.youtube.com/watch?v=5JdG_8m3_gM' 
         },
         { 
             name: 'Vatapi Ganapatim', 
@@ -89,7 +90,8 @@ export const RAGAS: Raga[] = [
                 bio: 'A South Indian poet and composer, he is considered one of the musical trinity of Carnatic music. His compositions are noted for their elaborate and poetic descriptions.',
                 externalUrl: 'https://en.wikipedia.org/wiki/Muthuswami_Dikshitar',
             },
-            mediaUrl: 'https://www.youtube.com/watch?v=rhiRNw-2-sA' 
+            // Replaced video with an embeddable version
+            mediaUrl: 'https://www.youtube.com/watch?v=QRQ64y25WvI' 
         },
     ]
   }
