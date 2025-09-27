@@ -136,16 +136,28 @@ const RagaDetail: React.FC<RagaDetailProps> = ({ raga, onCompositionPlay }) => {
                   <p className="text-sm text-slate-400 mt-2 leading-relaxed">{comp.composer.bio}</p>
                 </div>
                 
-                {comp.composer.externalUrl && (
-                  <a 
-                    href={comp.composer.externalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-orange-400 hover:text-orange-300 hover:underline mt-4 self-start"
-                  >
-                    Learn more about {comp.composer.name}
-                  </a>
-                )}
+                <div className="flex items-center justify-between mt-4">
+                  {comp.composer.externalUrl && (
+                    <a 
+                      href={comp.composer.externalUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-orange-400 hover:text-orange-300 hover:underline"
+                    >
+                      Learn more about {comp.composer.name}
+                    </a>
+                  )}
+                  {comp.mediaUrl && (
+                     <a 
+                      href={comp.mediaUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-orange-400 hover:text-orange-300 hover:underline"
+                    >
+                      Video Source
+                    </a>
+                  )}
+                </div>
               </div>
             ))}
           </div>

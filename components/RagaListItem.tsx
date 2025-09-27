@@ -57,9 +57,19 @@ const RagaListItem: React.FC<RagaListItemProps> = ({ raga, onActivate, onSeek, i
             <p className={`text-sm font-medium ${styleColor}`}>{raga.style}</p>
           </div>
         </div>
-        <div className="flex-shrink-0">
+        <div className="flex-shrink-0 flex items-center gap-2">
             {raga.audioUrl && (
               <>
+                <a 
+                  href={raga.audioUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  onClick={(e) => e.stopPropagation()} 
+                  className="text-xs text-slate-500 hover:text-orange-400 hover:underline" 
+                  title="Open audio source in new tab"
+                >
+                  Source
+                </a>
                 {hasError ? (
                   <div title="Audio file failed to load" className="p-2 rounded-full bg-red-900/50 text-red-400">
                     <ErrorIcon className="w-6 h-6" />

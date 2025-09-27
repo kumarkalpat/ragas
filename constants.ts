@@ -6,7 +6,7 @@ import { Raga, RagaStyle, TimeOfDay } from './types';
 const VALID_SILENT_AUDIO_URL = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
 
 export const RAGAS: Raga[] = [
-  // Hindustani Ragas
+  // --- HINDUSTANI RAGAS ---
   {
     id: 'yaman',
     name: 'Yaman',
@@ -18,7 +18,7 @@ export const RAGAS: Raga[] = [
     samvadi: 'Ni',
     pakad: 'N R G R S, P M(t) G R S',
     time: TimeOfDay.Evening,
-    description: 'A principal raga of Hindustani music, known for its serene and devotional mood.',
+    description: 'A principal raga, known for its serene and devotional mood.',
     originator: {
         name: 'Ameer Khusrau (Attributed)',
         note: 'A prolific poet, scholar, and musician of the Delhi Sultanate, often credited with creating qawwali and developing new ragas.'
@@ -37,15 +37,89 @@ export const RAGAS: Raga[] = [
     samvadi: 'Sa',
     pakad: 'g M d P, M g r S',
     time: TimeOfDay.Morning,
-    description: 'A popular Hindustani raga, often performed at the end of a concert. It has a deeply emotional and devotional character.',
+    description: 'A deeply emotional raga, often performed at the end of a concert.',
     originator: {
         name: 'Ancient Origin',
-        note: 'An ancient raga considered part of the foundational Bhairav family, with origins tied to devotional traditions predating modern classification.'
+        note: 'An ancient raga considered part of the foundational Bhairav family, with origins tied to devotional traditions.'
     },
     period: 'Ancient',
     audioUrl: VALID_SILENT_AUDIO_URL,
   },
-  // Carnatic Ragas
+  {
+    id: 'malkauns',
+    name: 'Malkauns',
+    style: RagaStyle.Hindustani,
+    thaat: 'Bhairavi',
+    aroha: 'n S g M d n S\'',
+    avaroha: 'S\' n d M g S',
+    vadi: 'Ma',
+    samvadi: 'Sa',
+    time: TimeOfDay.LateNight,
+    description: 'A majestic and meditative raga, performed late at night.',
+    period: 'Ancient',
+    audioUrl: VALID_SILENT_AUDIO_URL,
+  },
+  {
+    id: 'darbari-kanada',
+    name: 'Darbari Kanada',
+    style: RagaStyle.Hindustani,
+    thaat: 'Asavari',
+    aroha: 'S R g M P d n S\'',
+    avaroha: 'S\' d n P M P g M R S',
+    vadi: 'Re',
+    samvadi: 'Pa',
+    time: TimeOfDay.Night,
+    description: 'A grave, profound raga created by Tansen for the royal court.',
+    originator: {
+        name: 'Miyan Tansen',
+        note: 'A legendary composer and musician in the court of Emperor Akbar, considered one of the greatest in Indian history.'
+    },
+    period: '16th Century',
+    audioUrl: VALID_SILENT_AUDIO_URL,
+  },
+  {
+    id: 'bhimpalasi',
+    name: 'Bhimpalasi',
+    style: RagaStyle.Hindustani,
+    thaat: 'Kafi',
+    aroha: 'n S g M P n S\'',
+    avaroha: 'S\' n D P M g R S',
+    vadi: 'Ma',
+    samvadi: 'Sa',
+    time: TimeOfDay.Afternoon,
+    description: 'A beautiful afternoon raga expressing longing and pathos.',
+    period: 'Medieval',
+    audioUrl: VALID_SILENT_AUDIO_URL,
+  },
+   {
+    id: 'bageshri',
+    name: 'Bageshri',
+    style: RagaStyle.Hindustani,
+    thaat: 'Kafi',
+    aroha: 'S g M D n S\'',
+    avaroha: 'S\' n D M P D g M R S',
+    vadi: 'Ma',
+    samvadi: 'Sa',
+    time: TimeOfDay.Night,
+    description: 'A romantic night raga, expressing the emotion of waiting for a lover.',
+    period: 'Medieval',
+    audioUrl: VALID_SILENT_AUDIO_URL,
+  },
+  {
+    id: 'bihag',
+    name: 'Bihag',
+    style: RagaStyle.Hindustani,
+    thaat: 'Bilawal',
+    aroha: 'N S G M P N S\'',
+    avaroha: 'S\' N D P M P G M G R S',
+    vadi: 'Ga',
+    samvadi: 'Ni',
+    time: TimeOfDay.Night,
+    description: 'A popular night raga with a rich, romantic, and devotional character.',
+    period: 'Medieval',
+    audioUrl: VALID_SILENT_AUDIO_URL,
+  },
+  // --- CARNATIC RAGAS ---
   {
     id: 'mayamalavagowla',
     name: 'Mayamalavagowla',
@@ -54,10 +128,10 @@ export const RAGAS: Raga[] = [
     aroha: 'S R1 G3 M1 P D1 N3 S\'',
     avaroha: 'S\' N3 D1 P M1 G3 R1 S',
     time: TimeOfDay.Morning,
-    description: 'The foundational raga in Carnatic music, used for initial lessons. It evokes peace and devotion.',
+    description: 'The foundational raga used for initial lessons, evoking peace.',
     originator: {
         name: 'Purandara Dasa',
-        note: 'Often hailed as the "Pitamaha" (father) of Carnatic music, he systematized initial music lessons and composed thousands of devotional songs.'
+        note: 'Hailed as the "Pitamaha" (father) of Carnatic music, he systematized music lessons and composed thousands of songs.'
     },
     period: '15th Century',
     audioUrl: VALID_SILENT_AUDIO_URL,
@@ -70,7 +144,7 @@ export const RAGAS: Raga[] = [
     aroha: 'S R2 G3 M2 P D2 N3 S\'',
     avaroha: 'S\' N3 D2 P M2 G3 R2 S',
     time: TimeOfDay.AnyTime,
-    description: 'A major and popular raga in Carnatic music, equivalent to Yaman in Hindustani music. It is known for its auspicious and majestic feel.',
+    description: 'A major raga, equivalent to Yaman. Known for its auspicious feel.',
     audioUrl: VALID_SILENT_AUDIO_URL,
     compositions: [
         { 
@@ -80,7 +154,6 @@ export const RAGAS: Raga[] = [
                 bio: 'One of the greatest composers of Carnatic music, he composed thousands of devotional compositions, most in praise of Lord Rama.',
                 externalUrl: 'https://en.wikipedia.org/wiki/Tyagaraja',
             },
-            // Replaced video with an embeddable version
             mediaUrl: 'https://www.youtube.com/watch?v=5JdG_8m3_gM' 
         },
         { 
@@ -90,9 +163,69 @@ export const RAGAS: Raga[] = [
                 bio: 'A South Indian poet and composer, he is considered one of the musical trinity of Carnatic music. His compositions are noted for their elaborate and poetic descriptions.',
                 externalUrl: 'https://en.wikipedia.org/wiki/Muthuswami_Dikshitar',
             },
-            // Replaced video with an embeddable version
             mediaUrl: 'https://www.youtube.com/watch?v=QRQ64y25WvI' 
         },
     ]
+  },
+  {
+    id: 'sankarabharanam',
+    name: 'Sankarabharanam',
+    style: RagaStyle.Carnatic,
+    melakarta: '29th',
+    aroha: 'S R2 G3 M1 P D2 N3 S\'',
+    avaroha: 'S\' N3 D2 P M1 G3 R2 S',
+    time: TimeOfDay.AnyTime,
+    description: 'The Carnatic equivalent of the Western C Major scale (Bilawal in Hindustani). It is a majestic and versatile raga.',
+    period: 'Ancient',
+    audioUrl: VALID_SILENT_AUDIO_URL,
+  },
+  {
+    id: 'mohanam',
+    name: 'Mohanam',
+    style: RagaStyle.Carnatic,
+    aroha: 'S R2 G3 P D2 S\'',
+    avaroha: 'S\' D2 P G3 R2 S',
+    time: TimeOfDay.AnyTime,
+    description: 'A popular and beautiful pentatonic raga (equivalent to Bhupali in Hindustani) that is very pleasant to listen to.',
+    period: 'Ancient',
+    audioUrl: VALID_SILENT_AUDIO_URL,
+  },
+  {
+    id: 'hamsadhwani',
+    name: 'Hamsadhwani',
+    style: RagaStyle.Carnatic,
+    aroha: 'S R2 G3 P N3 S\'',
+    avaroha: 'S\' N3 P G3 R2 S',
+    time: TimeOfDay.AnyTime,
+    description: 'A pentatonic raga created by Ramaswami Dikshitar, known for its bright and celebratory mood.',
+    originator: {
+        name: 'Ramaswami Dikshitar',
+        note: 'A versatile musician and the father of the great composer Muthuswami Dikshitar. He was a pioneer in the field of Carnatic musicology.'
+    },
+    period: '18th Century',
+    audioUrl: VALID_SILENT_AUDIO_URL,
+  },
+  {
+    id: 'keeravani',
+    name: 'Keeravani',
+    style: RagaStyle.Carnatic,
+    melakarta: '21st',
+    aroha: 'S R2 G2 M1 P D1 N3 S\'',
+    avaroha: 'S\' N3 D1 P M1 G2 R2 S',
+    time: TimeOfDay.AnyTime,
+    description: 'A melodious raga that is often used in film music for its emotional depth, evoking pathos and devotion.',
+    period: 'Modern',
+    audioUrl: VALID_SILENT_AUDIO_URL,
+  },
+  {
+    id: 'hindolam',
+    name: 'Hindolam',
+    style: RagaStyle.Carnatic,
+    aroha: 'S G2 M1 D1 N2 S\'',
+    avaroha: 'S\' N2 D1 M1 G2 S',
+    time: TimeOfDay.AnyTime,
+    description: 'A pentatonic raga with a swaying, gentle quality (equivalent to Malkauns). It is considered very auspicious.',
+    period: 'Ancient',
+    audioUrl: VALID_SILENT_AUDIO_URL,
   }
 ];
